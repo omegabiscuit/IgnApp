@@ -15,6 +15,7 @@ import com.brighambangerter.ignapp.api.response.ArticleResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mArticlesAdapter);
 
         loadArticles();
+
+        Timber.tag("LifeCycles");
+        Timber.d("Activity Created");
     }
 
     public void loadArticles(){
