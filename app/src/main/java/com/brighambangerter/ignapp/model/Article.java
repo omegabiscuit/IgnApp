@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * An article
  */
 public class Article {
-    @SerializedName("thumbnail")
+    @SerializedName("thumbnails")
     private String mThumbnail;
     @SerializedName("metadata")
     private MetaData mMetaData;

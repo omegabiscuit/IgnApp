@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relLayout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#000"
-    android:id="@+id/relLayout"
+    android:background="#FF00"
     >
 
     <ImageView
@@ -18,22 +18,22 @@
         />
 
     <TextView
+        android:id="@+id/articleTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Article Title"
-        android:id="@+id/articleTitle"
         android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/network_image"
         android:layout_toRightOf="@+id/network_image"
-        android:layout_toEndOf="@+id/network_image" />
+        android:text="Article Title" />
 
     <TextView
+        android:id="@+id/url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="URL"
-        android:id="@+id/url"
-        android:maxLines="0"
         android:layout_alignBottom="@+id/network_image"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:maxLines="0"
+        android:text="URL" />
 
 
 </RelativeLayout>

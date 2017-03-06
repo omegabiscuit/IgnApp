@@ -39,8 +39,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
             public void onClick(View v) {
                 TextView articleUrl = (TextView) v.findViewById(R.id.url);
                 String postUrl = articleUrl.getText().toString();
-                //Intent intent = new Intent(mContext, webActivity.class);
-                //intent.putExtra("url", postUrl);
+               // Intent intent = new Intent(mContext, webActivity.class);
+               // intent.putExtra("url", postUrl);
                 //mContext.startActivity(intent);
             }
 
@@ -56,8 +56,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
         articleViewHolder.getLayoutPosition();
         Picasso.with(articleViewHolder.itemView.getContext())
                 .load(article.getThumbnail())
-                .placeholder(R.drawable.placeholder)
                 .into(articleViewHolder.thumbnail);
+                //.placeholder(R.drawable.placeholder)
+
 
         articleViewHolder.articleTitle.setText(Html.fromHtml(article.getMetaData().getHeadline()));
     }
