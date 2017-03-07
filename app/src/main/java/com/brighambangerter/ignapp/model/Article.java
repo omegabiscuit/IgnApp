@@ -2,17 +2,19 @@ package com.brighambangerter.ignapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * An article
  */
 public class Article {
     @SerializedName("thumbnails")
-    private String mThumbnail;
+    private ArrayList<Thumbnail> mThumbnails;
     @SerializedName("metadata")
     private MetaData mMetaData;
 
-    public String getThumbnail() {
-        return mThumbnail;
+    public ArrayList<Thumbnail> getThumbnails() {
+        return mThumbnails;
     }
 
     public MetaData getMetaData() {

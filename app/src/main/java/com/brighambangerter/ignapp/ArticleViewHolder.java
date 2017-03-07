@@ -12,7 +12,7 @@ import android.widget.TextView;
  */
 public class ArticleViewHolder extends RecyclerView.ViewHolder{
 
-    protected TextView url;
+    protected TextView time;
     protected TextView articleTitle;
     protected ImageView thumbnail;
     protected RelativeLayout relativeLayout;
@@ -21,7 +21,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder{
         super(view);
         this.thumbnail = (ImageView) view.findViewById(R.id.network_image);
         this.articleTitle = (TextView) view.findViewById(R.id.articleTitle);
-        this.url = (TextView) view.findViewById(R.id.url);
+        this.time = (TextView) view.findViewById(R.id.time);
         this.relativeLayout = (RelativeLayout) view.findViewById(R.id.relLayout);
         view.setClickable(true);
 

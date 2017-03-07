@@ -37,7 +37,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView articleUrl = (TextView) v.findViewById(R.id.url);
+                TextView articleUrl = (TextView) v.findViewById(R.id.time);
                 String postUrl = articleUrl.getText().toString();
                // Intent intent = new Intent(mContext, webActivity.class);
                // intent.putExtra("url", postUrl);
@@ -55,12 +55,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
 
         articleViewHolder.getLayoutPosition();
         Picasso.with(articleViewHolder.itemView.getContext())
-                .load(article.getThumbnail())
+                .load(article.getThumbnails().get(2).getUrl())
                 .into(articleViewHolder.thumbnail);
                 //.placeholder(R.drawable.placeholder)
 
 
         articleViewHolder.articleTitle.setText(Html.fromHtml(article.getMetaData().getHeadline()));
+        articleViewHolder.time.setText(Html.fromHtml(article.getMetaData().getPublishDate()));
     }
 
     public void clearAdapter() {
