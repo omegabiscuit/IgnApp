@@ -27,7 +27,6 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
     }
 
     public void setArticles(ArrayList<Article> articles, List<Article> videos) {
-        mArticles.clear();
         mArticles.addAll(articles);
         mVideos.addAll(videos);
         notifyDataSetChanged();

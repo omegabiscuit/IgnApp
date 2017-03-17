@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String IgnUrl = "http://www.ign.com/";
     private ProgressDialog progressDialog;
 
+    int index = 0;
+    boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,19 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mArticlesAdapter = new ArticlesAdapter();
         mRecyclerView.setAdapter(mArticlesAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading) {
+                    index++;
+                    loadArticles();
+                }
+            }
+        });
 
         LinearLayoutManager videoLayout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mVideoRecyclerView = (RecyclerView) findViewById(R.id.list2);
@@ -56,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         Timber.d("Activity Created");
     }
 
-    public void loadVideos(){
-        IgnClient.instance().getVideos().enqueue(new Callback<ArticleResponse>() {
+    public void loadVideos() {
+        IgnClient.instance().getVideos(0).enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
                 if (response.isSuccessful()) {
@@ -72,43 +87,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void loadArticles(){
-        IgnClient.instance().getArticles().enqueue(new Callback<ArticleResponse>() {
+    public void loadArticles() {
+        loading = true;
+        IgnClient.instance().getArticles(index).enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                loading = false;
                 if (response.isSuccessful()) {
                     mArticlesAdapter.setArticles(response.body().getData(), mVideoAdapter.getVideos());
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                loading = false;
                 Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

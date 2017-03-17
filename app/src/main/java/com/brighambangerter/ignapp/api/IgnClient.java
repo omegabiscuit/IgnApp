@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Connects with IGN
@@ -19,9 +20,10 @@ public class IgnClient {
 
     public interface Ign {
         @GET("articles")
-        Call<ArticleResponse> getArticles();
+        Call<ArticleResponse> getArticles(@Query("startIndex") int index);
         @GET("videos")
-        Call<ArticleResponse> getVideos();
+        Call<ArticleResponse> getVideos(@Query("startIndex") int index);
+
     }
 
     public static Ign instance() {
