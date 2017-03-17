@@ -14,7 +14,7 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:label="IGN.App"
-            
+
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

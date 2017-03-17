@@ -20,6 +20,8 @@ public class IgnClient {
     public interface Ign {
         @GET("articles")
         Call<ArticleResponse> getArticles();
+        @GET("videos")
+        Call<ArticleResponse> getVideos();
     }
 
     public static Ign instance() {

@@ -5,23 +5,29 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Article metadata
+ * Created by Brigham on 3/7/2017.
  */
-public class MetaData {
-    @SerializedName(value="headline", alternate={"name"})
+
+public class VideoMetaData {
+    @SerializedName("name")
     private String mHeadline;
+    @SerializedName("description")
+    private String mState;
+    @SerializedName("publishDate")
+    private String mPublishDate;
+    @SerializedName("longTitle")
+    private String mSubHeadline;
+    @SerializedName("duration")
+    private int mDuration;
+    @SerializedName("url")
+    private String url;
+    @SerializedName("slug")
+    private String mSlug;
     @SerializedName("networks")
     private ArrayList<String> mNetworks;
     @SerializedName("state")
-    private String mState;
-    @SerializedName("slug")
-    private String mSlug;
-    @SerializedName("subheadline")
-    private String mSubHeadline;
-    @SerializedName("publishDate")
-    private String mPublishDate;
-    @SerializedName("articleType")
-    private String mArticleType;
+    private String state;
+
 
     public String getHeadline() {
         return mHeadline;
@@ -45,9 +51,5 @@ public class MetaData {
 
     public String getPublishDate() {
         return mPublishDate;
-    }
-
-    public String getArticleType() {
-        return mArticleType;
     }
 }

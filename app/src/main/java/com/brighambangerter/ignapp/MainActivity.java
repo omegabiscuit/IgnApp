@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ArticlesAdapter mArticlesAdapter;
 
+
+    private RecyclerView mVideoRecyclerView;
+    private VideoAdapter mVideoAdapter;
+
     private static final String IgnUrl = "http://www.ign.com/";
     private ProgressDialog progressDialog;
 
@@ -39,18 +43,25 @@ public class MainActivity extends AppCompatActivity {
         mArticlesAdapter = new ArticlesAdapter();
         mRecyclerView.setAdapter(mArticlesAdapter);
 
+        LinearLayoutManager videoLayout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mVideoRecyclerView = (RecyclerView) findViewById(R.id.list2);
+        mVideoRecyclerView.setLayoutManager(videoLayout);
+        mVideoAdapter = new VideoAdapter();
+
+        loadVideos();
         loadArticles();
+
 
         Timber.tag("LifeCycles");
         Timber.d("Activity Created");
     }
 
-    public void loadArticles(){
-        IgnClient.instance().getArticles().enqueue(new Callback<ArticleResponse>() {
+    public void loadVideos(){
+        IgnClient.instance().getVideos().enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
                 if (response.isSuccessful()) {
-                    mArticlesAdapter.setArticles(response.body().getData());
+                    mVideoAdapter.setArticles(response.body().getData());
                 }
             }
 
@@ -60,6 +71,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void loadArticles(){
+        IgnClient.instance().getArticles().enqueue(new Callback<ArticleResponse>() {
+            @Override
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                if (response.isSuccessful()) {
+                    mArticlesAdapter.setArticles(response.body().getData(), mVideoAdapter.getVideos());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

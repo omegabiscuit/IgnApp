@@ -40,9 +40,10 @@
         android:id="@+id/network_image"
         android:layout_width="465dp"
         android:layout_height="261dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_below="@+id/articleTitle"
         android:paddingBottom="10dp"
         />
+
 
 </RelativeLayout>

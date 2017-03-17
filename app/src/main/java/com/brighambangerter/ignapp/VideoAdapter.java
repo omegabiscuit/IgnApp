@@ -14,37 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Brigham on 4/17/2016.
+ * Created by Brigham on 3/7/2017.
  */
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
+
+public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     private List<Article> mArticles;
-    private List<Article> mVideos;
 
-    public ArticlesAdapter() {
+    public VideoAdapter() {
         mArticles = new ArrayList<>();
-        mVideos = new ArrayList<>();
     }
 
-    public void setArticles(ArrayList<Article> articles, List<Article> videos) {
+    public void setArticles(ArrayList<Article> articles) {
         mArticles.clear();
         mArticles.addAll(articles);
-        mVideos.addAll(videos);
         notifyDataSetChanged();
     }
 
-    public ArticleViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
+    public VideoViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, null);
-        ArticleViewHolder holder = new ArticleViewHolder(v);
+        VideoViewHolder holder = new VideoViewHolder(v);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView articleUrl = (TextView) v.findViewById(R.id.time);
                 String postUrl = articleUrl.getText().toString();
-                // Intent intent = new Intent(mContext, webActivity.class);
-                // intent.putExtra("url", postUrl);
-                //mContext.startActivity(intent);
             }
 
         });
@@ -53,25 +48,27 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
     }
 
 
-    public void onBindViewHolder(final ArticleViewHolder articleViewHolder, int position) {
-
+    public void onBindViewHolder(final VideoViewHolder videoViewHolder, int position) {
         Article article = mArticles.get(position);
 
-        articleViewHolder.getLayoutPosition();
-        Picasso.with(articleViewHolder.itemView.getContext())
+        videoViewHolder.getLayoutPosition();
+        Picasso.with(videoViewHolder.itemView.getContext())
                 .load(article.getThumbnails().get(2).getUrl())
-                .into(articleViewHolder.thumbnail);
+                .into(videoViewHolder.thumbnail);
 
 
-        articleViewHolder.articleTitle.setText(Html.fromHtml(article.getMetaData().getHeadline()));
-        articleViewHolder.time.setText(Html.fromHtml(article.getMetaData().getPublishDate()));
+        videoViewHolder.articleTitle.setText(Html.fromHtml(article.getMetaData().getHeadline()));
+        videoViewHolder.time.setText(Html.fromHtml(article.getMetaData().getPublishDate()));
+    }
+
+    public List<Article> getVideos(){
+        return mArticles;
     }
 
     public void clearAdapter() {
         mArticles.clear();
         notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemCount() {
