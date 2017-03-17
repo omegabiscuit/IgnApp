@@ -13,6 +13,7 @@ public class Article {
     @SerializedName("metadata")
     private MetaData mMetaData;
 
+
     public ArrayList<Thumbnail> getThumbnails() {
         return mThumbnails;
     }

@@ -1,11 +1,12 @@
 package com.brighambangerter.ignapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.brighambangerter.ignapp.model.Video;
 import com.squareup.picasso.Picasso;
@@ -33,13 +34,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     public VideoViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, null);
-        VideoViewHolder holder = new VideoViewHolder(v);
+        final VideoViewHolder holder = new VideoViewHolder(v);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView articleUrl = (TextView) v.findViewById(R.id.time);
-                String postUrl = articleUrl.getText().toString();
+                Video video = mVideos.get(holder.getAdapterPosition());
+                String postUrl = "http://www.ign.com/videos/" + video.getMetaData().getSlug();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(postUrl));
+                holder.itemView.getContext().startActivity(intent);
             }
 
         });

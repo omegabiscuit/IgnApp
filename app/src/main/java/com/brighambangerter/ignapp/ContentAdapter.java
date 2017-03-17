@@ -1,11 +1,12 @@
 package com.brighambangerter.ignapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.brighambangerter.ignapp.model.Article;
 import com.brighambangerter.ignapp.model.Content;
@@ -43,16 +44,16 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (viewType) {
             case VIEW_TYPE_ARTICLE:
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, null);
-                ArticleViewHolder holder = new ArticleViewHolder(v);
+                final ArticleViewHolder holder = new ArticleViewHolder(v);
 
                 holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TextView articleUrl = (TextView) v.findViewById(R.id.time);
-                        String postUrl = articleUrl.getText().toString();
-                        // Intent intent = new Intent(mContext, webActivity.class);
-                        // intent.putExtra("url", postUrl);
-                        //mContext.startActivity(intent);
+                        Article article = (Article)contents.get(holder.getAdapterPosition());
+                        String postUrl = "http://www.ign.com/articles/" + article.getMetaData().getSlug();
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(postUrl));
+                        holder.itemView.getContext().startActivity(intent);
                     }
 
                 });

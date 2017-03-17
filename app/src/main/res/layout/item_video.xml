@@ -2,48 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
     android:background="#000"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     >
 
 
     <TextView
-        android:id="@+id/time"
-        android:layout_width="100dp"
-        android:layout_height="80dp"
-        android:textSize="12sp"
-        android:layout_centerHorizontal="true"
-        android:maxLines="0"
-        android:textColor="#FFF"
-        android:textStyle="bold"
-        android:typeface="serif" />
-
-    <TextView
         android:id="@+id/articleTitle"
-        android:layout_width="465dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "testing testing123"
+        android:layout_alignParentBottom="true"
         android:ems="10"
         android:textColor="#FFF"
         android:background="#484848"
         android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="serif"
+        android:padding="10dp"
 
 
         />
 
     <ImageView
         android:id="@+id/network_image"
-        android:layout_width="465dp"
-        android:layout_height="261dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:layout_below="@+id/articleTitle"
         android:paddingBottom="10dp"
-        />
+        android:layout_below="@+id/time"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
