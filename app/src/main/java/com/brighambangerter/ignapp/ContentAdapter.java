@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.brighambangerter.ignapp.model.Article;
 import com.brighambangerter.ignapp.model.Content;
+import com.brighambangerter.ignapp.model.Video;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
         int viewType = getItemViewType(position);
-        switch (viewType){
-            case VIEW_TYPE_ARTICLE :
+        switch (viewType) {
+            case VIEW_TYPE_ARTICLE:
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, null);
                 ArticleViewHolder holder = new ArticleViewHolder(v);
 
@@ -57,21 +58,11 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 });
                 return holder;
-            case VIEW_TYPE_VIDEO :
+            case VIEW_TYPE_VIDEO:
                 View v2 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_video_list, null);
                 VideoListViewHolder holder2 = new VideoListViewHolder(v2);
 
-                holder2.relativeLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TextView articleUrl = (TextView) v.findViewById(R.id.time);
-                        String postUrl = articleUrl.getText().toString();
-                        // Intent intent = new Intent(mContext, webActivity.class);
-                        // intent.putExtra("url", postUrl);
-                        //mContext.startActivity(intent);
-                    }
 
-                });
                 return holder2;
         }
         throw new RuntimeException("viewType not known");
@@ -81,8 +72,8 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
 
-        switch (viewHolder.getItemViewType()){
-            case VIEW_TYPE_ARTICLE :
+        switch (viewHolder.getItemViewType()) {
+            case VIEW_TYPE_ARTICLE:
                 Article article = (Article) contents.get(position);
                 ArticleViewHolder articleViewHolder = (ArticleViewHolder) viewHolder;
                 Picasso.with(viewHolder.itemView.getContext())
@@ -93,7 +84,10 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 articleViewHolder.articleTitle.setText(Html.fromHtml(article.getMetaData().getHeadline()));
                 articleViewHolder.time.setText(Html.fromHtml(article.getMetaData().getPublishDate()));
                 break;
-            case VIEW_TYPE_VIDEO :
+            case VIEW_TYPE_VIDEO:
+                ArrayList<Video> videos = (ArrayList<Video>) contents.get(position);
+                VideoListViewHolder videoListViewHolder = (VideoListViewHolder) viewHolder;
+                videoListViewHolder.setVideos(videos);
                 break;
         }
 
@@ -110,8 +104,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Object object = contents.get(position);
         if (object instanceof Article) {
             return VIEW_TYPE_ARTICLE;
-        }
-        else if (object instanceof ArrayList){
+        } else if (object instanceof ArrayList) {
             return VIEW_TYPE_VIDEO;
         }
         throw new RuntimeException("IDK what to do if this doesn't work");

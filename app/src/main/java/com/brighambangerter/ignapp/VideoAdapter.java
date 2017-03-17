@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.brighambangerter.ignapp.model.Article;
+import com.brighambangerter.ignapp.model.Video;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,15 +19,15 @@ import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
-    private List<Article> mArticles;
+    private List<Video> mVideos;
 
     public VideoAdapter() {
-        mArticles = new ArrayList<>();
+        mVideos = new ArrayList<>();
     }
 
-    public void setArticles(ArrayList<Article> articles) {
-        mArticles.clear();
-        mArticles.addAll(articles);
+    public void setArticles(ArrayList<Video> videos) {
+        mVideos.clear();
+        mVideos.addAll(videos);
         notifyDataSetChanged();
     }
 
@@ -49,29 +49,20 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
 
     public void onBindViewHolder(final VideoViewHolder videoViewHolder, int position) {
-        Article article = mArticles.get(position);
+        Video video = mVideos.get(position);
 
         videoViewHolder.getLayoutPosition();
         Picasso.with(videoViewHolder.itemView.getContext())
-                .load(article.getThumbnails().get(2).getUrl())
+                .load(video.getThumbnails().get(2).getUrl())
                 .into(videoViewHolder.thumbnail);
 
 
-        videoViewHolder.articleTitle.setText(Html.fromHtml(article.getMetaData().getHeadline()));
-        videoViewHolder.time.setText(Html.fromHtml(article.getMetaData().getPublishDate()));
-    }
-
-    public List<Article> getVideos(){
-        return mArticles;
-    }
-
-    public void clearAdapter() {
-        mArticles.clear();
-        notifyDataSetChanged();
+        videoViewHolder.articleTitle.setText(Html.fromHtml(video.getMetaData().getHeadline()));
+        videoViewHolder.time.setText(Html.fromHtml(video.getMetaData().getPublishDate()));
     }
 
     @Override
     public int getItemCount() {
-        return mArticles.size();
+        return mVideos.size();
     }
 }

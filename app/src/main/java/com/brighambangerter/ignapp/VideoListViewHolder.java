@@ -1,29 +1,32 @@
 package com.brighambangerter.ignapp;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.brighambangerter.ignapp.model.Video;
+
+import java.util.ArrayList;
 
 
 /**
  * Created by Brigham on 4/16/2016.
  */
-public class VideoListViewHolder extends RecyclerView.ViewHolder{
+public class VideoListViewHolder extends RecyclerView.ViewHolder {
 
-    protected TextView time;
-    protected TextView articleTitle;
-    protected ImageView thumbnail;
-    protected RelativeLayout relativeLayout;
+    private RecyclerView list;
+    private VideoAdapter videoAdapter;
 
-    public VideoListViewHolder(View view){
+    public VideoListViewHolder(View view) {
         super(view);
-        this.thumbnail = (ImageView) view.findViewById(R.id.network_image);
-        this.articleTitle = (TextView) view.findViewById(R.id.articleTitle);
-        this.time = (TextView) view.findViewById(R.id.time);
-        this.relativeLayout = (RelativeLayout) view.findViewById(R.id.relLayout);
-        view.setClickable(true);
+        this.list = (RecyclerView) view.findViewById(R.id.videoList);
+        this.list.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        this.videoAdapter = new VideoAdapter();
+        this.list.setAdapter(this.videoAdapter);
 
+    }
+
+    public void setVideos(ArrayList<Video> list){
+        this.videoAdapter.setArticles(list);
     }
 }
