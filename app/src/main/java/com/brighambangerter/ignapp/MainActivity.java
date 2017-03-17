@@ -1,6 +1,5 @@
 package com.brighambangerter.ignapp;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,20 +17,15 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "RecyclerList";
-    private static final int INCREMENT = 10;
+    private static final int ARTICLE_INCREMENT = 2;
+    private static final int VIDEO_INCREMENT = 5;
 
     private RecyclerView mRecyclerView;
-    private ArticlesAdapter mArticlesAdapter;
+    private ContentAdapter mContentAdapter;
 
 
-    private RecyclerView mVideoRecyclerView;
-    private VideoAdapter mVideoAdapter;
-
-    private static final String IgnUrl = "http://www.ign.com/";
-    private ProgressDialog progressDialog;
-
-    int index = 0;
+    int articleIndex = 0;
+    int videoIndex = 0;
 
     boolean loading = false;
 
@@ -43,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mArticlesAdapter = new ArticlesAdapter();
-        mRecyclerView.setAdapter(mArticlesAdapter);
+        mContentAdapter = new ContentAdapter();
+        mRecyclerView.setAdapter(mContentAdapter);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -53,16 +47,12 @@ public class MainActivity extends AppCompatActivity {
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
                 if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading) {
-                    index += INCREMENT;
+                    articleIndex += ARTICLE_INCREMENT;
+                    videoIndex += VIDEO_INCREMENT;
                     loadContent();
                 }
             }
         });
-
-        LinearLayoutManager videoLayout = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mVideoRecyclerView = (RecyclerView) findViewById(R.id.list2);
-        mVideoRecyclerView.setLayoutManager(videoLayout);
-        mVideoAdapter = new VideoAdapter();
         loadContent();
 
 
@@ -71,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadContent() {
-        IgnClient.getContent(index).subscribeOn(Schedulers.io())
+        IgnClient.getContent(articleIndex, videoIndex).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Content>() {
                     @Override
@@ -81,12 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(Content content) {
-
+                        mContentAdapter.addContent(content);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(MainActivity.this,"DANGER!", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
                     }
                 });
     }

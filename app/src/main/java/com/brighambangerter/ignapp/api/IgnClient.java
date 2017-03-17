@@ -36,15 +36,15 @@ public class IgnClient {
 
     }
 
-    public static Single<Content> getContent(final int index) {
+    public static Single<Content> getContent(final int articleIndex, final int videoIndex) {
         return Single.defer(new Callable<SingleSource<? extends Content>>() {
             @Override
             public SingleSource<? extends Content> call() throws Exception {
-                Response<ArticleResponse> articleResponse = sIgn.getArticles(index).execute();
+                Response<ArticleResponse> articleResponse = instance().getArticles(articleIndex).execute();
                 if (!articleResponse.isSuccessful()) {
                     throw new HttpException(articleResponse);
                 }
-                Response<VideoResponse> videoResponse = sIgn.getVideos(index).execute();
+                Response<VideoResponse> videoResponse = instance().getVideos(videoIndex).execute();
                 if (!articleResponse.isSuccessful()) {
                     throw new HttpException(articleResponse);
                 }

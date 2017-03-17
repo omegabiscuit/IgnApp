@@ -15,4 +15,12 @@ public class Content {
         this.articles = articles;
         this.videos = videos;
     }
+
+    public ArrayList<Article> getArticles() {
+        return articles;
+    }
+
+    public ArrayList<Video> getVideos() {
+        return videos;
+    }
 }
