@@ -5,16 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.brighambangerter.ignapp.api.IgnClient;
-import com.brighambangerter.ignapp.api.response.ArticleResponse;
+import com.brighambangerter.ignapp.model.Content;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
                 if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading) {
-                    index+=INCREMENT;
-                    loadArticles();
+                    index += INCREMENT;
+                    loadContent();
                 }
             }
         });
@@ -64,50 +63,33 @@ public class MainActivity extends AppCompatActivity {
         mVideoRecyclerView = (RecyclerView) findViewById(R.id.list2);
         mVideoRecyclerView.setLayoutManager(videoLayout);
         mVideoAdapter = new VideoAdapter();
-
-        loadVideos();
-        loadArticles();
+        loadContent();
 
 
         Timber.tag("LifeCycles");
         Timber.d("Activity Created");
     }
 
-    public void loadVideos() {
-        IgnClient.instance().getVideos(0).enqueue(new Callback<ArticleResponse>() {
-            @Override
-            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-                if (response.isSuccessful()) {
-                    mVideoAdapter.setArticles(response.body().getData());
-                }
-            }
+    public void loadContent() {
+        IgnClient.getContent(index).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Content>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    }
+
+                    @Override
+                    public void onSuccess(Content content) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(MainActivity.this,"DANGER!", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
-    public void loadArticles() {
-        loading = true;
-        IgnClient.instance().getArticles(index).enqueue(new Callback<ArticleResponse>() {
-            @Override
-            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-                loading = false;
-                if (response.isSuccessful()) {
-                    mArticlesAdapter.setArticles(response.body().getData());
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ArticleResponse> call, Throwable t) {
-                loading = false;
-                Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }

@@ -32,7 +32,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
     }
 
     public VideoViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, null);
         VideoViewHolder holder = new VideoViewHolder(v);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {

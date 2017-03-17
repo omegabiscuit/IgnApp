@@ -32,7 +32,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
     }
 
     public ArticleViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, null);
         ArticleViewHolder holder = new ArticleViewHolder(v);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
