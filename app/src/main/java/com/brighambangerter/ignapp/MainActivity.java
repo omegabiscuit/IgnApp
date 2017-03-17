@@ -20,6 +20,7 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "RecyclerList";
+    private static final int INCREMENT = 10;
 
     private RecyclerView mRecyclerView;
     private ArticlesAdapter mArticlesAdapter;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     int index = 0;
+
     boolean loading = false;
 
     @Override
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 int totalItemCount = linearLayoutManager.getItemCount();
                 int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
                 if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading) {
-                    index++;
+                    index+=INCREMENT;
                     loadArticles();
                 }
             }
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
                 loading = false;
                 if (response.isSuccessful()) {
-                    mArticlesAdapter.setArticles(response.body().getData(), mVideoAdapter.getVideos());
+                    mArticlesAdapter.setArticles(response.body().getData());
                 }
                 else{
                     Toast.makeText(MainActivity.this, "An error occurred", Toast.LENGTH_SHORT).show();

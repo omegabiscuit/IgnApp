@@ -19,16 +19,15 @@ import java.util.List;
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticleViewHolder> {
 
     private List<Article> mArticles;
-    private List<Article> mVideos;
+
 
     public ArticlesAdapter() {
         mArticles = new ArrayList<>();
-        mVideos = new ArrayList<>();
+
     }
 
-    public void setArticles(ArrayList<Article> articles, List<Article> videos) {
+    public void setArticles(ArrayList<Article> articles) {
         mArticles.addAll(articles);
-        mVideos.addAll(videos);
         notifyDataSetChanged();
     }
 
