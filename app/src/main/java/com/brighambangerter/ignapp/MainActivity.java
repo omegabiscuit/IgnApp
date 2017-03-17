@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadContent() {
-        IgnClient.getContent(articleIndex, videoIndex).subscribeOn(Schedulers.io())
+        IgnClient.getContent(articleIndex, videoIndex, ARTICLE_INCREMENT, VIDEO_INCREMENT).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Content>() {
                     @Override

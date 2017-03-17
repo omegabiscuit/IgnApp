@@ -29,22 +29,22 @@ public class IgnClient {
 
     public interface Ign {
         @GET("articles")
-        Call<ArticleResponse> getArticles(@Query("startIndex") int index);
+        Call<ArticleResponse> getArticles(@Query("startIndex") int index ,@Query("count") int count);
 
         @GET("videos")
-        Call<VideoResponse> getVideos(@Query("startIndex") int index);
+        Call<VideoResponse> getVideos(@Query("startIndex") int index, @Query("count") int count);
 
     }
 
-    public static Single<Content> getContent(final int articleIndex, final int videoIndex) {
+    public static Single<Content> getContent(final int articleIndex, final int videoIndex, final int articleCount, final int videoCount) {
         return Single.defer(new Callable<SingleSource<? extends Content>>() {
             @Override
             public SingleSource<? extends Content> call() throws Exception {
-                Response<ArticleResponse> articleResponse = instance().getArticles(articleIndex).execute();
+                Response<ArticleResponse> articleResponse = instance().getArticles(articleIndex, articleCount).execute();
                 if (!articleResponse.isSuccessful()) {
                     throw new HttpException(articleResponse);
                 }
-                Response<VideoResponse> videoResponse = instance().getVideos(videoIndex).execute();
+                Response<VideoResponse> videoResponse = instance().getVideos(videoIndex, videoCount).execute();
                 if (!articleResponse.isSuccessful()) {
                     throw new HttpException(articleResponse);
                 }

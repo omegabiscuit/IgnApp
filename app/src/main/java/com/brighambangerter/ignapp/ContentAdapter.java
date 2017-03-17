@@ -39,8 +39,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup, int position) {
-        int viewType = getItemViewType(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_ARTICLE:
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_article, null);
@@ -85,7 +84,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 articleViewHolder.time.setText(Html.fromHtml(article.getMetaData().getPublishDate()));
                 break;
             case VIEW_TYPE_VIDEO:
-                ArrayList<Video> videos = (ArrayList<Video>) contents.get(position);
+                ArrayList<Video> videos = (ArrayList) contents.get(position);
                 VideoListViewHolder videoListViewHolder = (VideoListViewHolder) viewHolder;
                 videoListViewHolder.setVideos(videos);
                 break;
